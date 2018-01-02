@@ -12,7 +12,7 @@ DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dgldev',
+        'NAME': 'tactdev',
         'USER': get_env_variable('DB_USER'),
         'PASSWORD': get_env_variable('DB_PASS'),
         'HOST': 'localhost',
