@@ -10,5 +10,5 @@ router.register(r'lines', views.LineViewSet)
 
 # Automatically determine API URLS
 urlpatterns = [
-	url(r'^', include(router.urls))
+    url(r'^', include(router.urls))
 ]

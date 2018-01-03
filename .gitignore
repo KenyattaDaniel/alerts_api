@@ -1,3 +1,12 @@
-tact_env/
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.pyc
+
+# Virtual Env
+tact_env/
+
+# Flake8 config
+setup.cfg
+
+# Sphinx documentation
+docs/_build/

@@ -1,5 +1,5 @@
 """
-WSGI config for basicpoll project.
+WSGI config for Tact project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
