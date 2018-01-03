@@ -1,16 +1,18 @@
 .. Tact API documentation master file, created by
-   sphinx-quickstart on Wed Jan  3 10:48:36 2018.
+   sphinx-quickstart on Wed Jan  3 15:14:28 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Tact API's documentation!
+Welcome to Tact API documentation!
 ====================================
+
+Hello! This document helps you make full use of Tact's API!
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-
+   intro
 
 Indices and tables
 ==================

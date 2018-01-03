@@ -9,4 +9,4 @@ tact_env/
 setup.cfg
 
 # Sphinx documentation
-docs/_build/
+docs/build/
