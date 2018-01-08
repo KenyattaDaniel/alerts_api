@@ -3,7 +3,7 @@ from django.db import models
 
 class Line(models.Model):
     """
-    This class class represents a vertical time line. 
+    This class class represents a timeline.
     """
     owner = models.ForeignKey('auth.User', related_name='lines', on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True, default='')
@@ -26,6 +26,7 @@ class Event(models.Model):
     """
     This class represents an event.
     """
+    owner = models.ForeignKey('auth.User', related_name='events', on_delete=models.CASCADE)
     line = models.ForeignKey(Line, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True, default='')
     created = models.DateTimeField(auto_now_add=True)

@@ -7,6 +7,7 @@ from . import views
 router = DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'lines', views.LineViewSet)
+router.register(r'events', views.EventViewSet)
 
 # Automatically determine API URLS
 urlpatterns = [
