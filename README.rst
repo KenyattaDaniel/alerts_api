@@ -3,7 +3,7 @@
 TacT JSON API
 =============
 
-.. image:: tact_project/logo.png
+.. image:: tact_api/logo.png
 An API platform enabling professionals living in small developing countries to easily 
 share and receive useful analysis, data and information.
 **Tact API is currently under development**. Once completed, it will enable users to*;
@@ -58,7 +58,7 @@ You will also need to have Python 3.5 or 3.6 and MySQL already installed on your
 
 From the repo root, navigate to settings folder::
 
-    $ cd tact/settings
+    $ cd tact_api/config/settings
 
 Notice the following function defined in base.py ::
 
@@ -70,7 +70,7 @@ Notice the following function defined in base.py ::
         error_msg = "Set the {} environment variable".format(var_name)
         raise ImproperlyConfigured(error_msg)
 
-The **get_env_variable** is used in both **base.py** and **local.py** to obtain virtenv variables::
+The **get_env_variable** function is used in both **base.py** and **local.py** to obtain virtenv variables::
 
     SECRET_KEY = get_env_variable('SECRET_KEY')
 
@@ -78,7 +78,7 @@ The **get_env_variable** is used in both **base.py** and **local.py** to obtain 
     'PASSWORD': get_env_variable('DB_PASS'),
     'PORT': get_env_variable('DB_PORT'),
 
-Assuming you have created a virtenv in the repo root, navigate to it as follows::
+Navigate to your virtenv folder from the repo root::
 
     $ cd virtualenv/bin
 
@@ -88,9 +88,9 @@ In the **activate** file set your virtenv variables similar to::
     export SECRET_KEY='<ENTER YOUR SECRET KEY HERE>'
 
     # Database
-    export DB_USER='<ENTER DATABASE USER HERE>'
-    export DB_PASS='<ENTER DATABASE PASSWORD HERE>'
-    export DB_PORT='<ENTER PORT NUMBER HERE>'
+    export DB_USER='ENTER DATABASE USER HERE'
+    export DB_PASS='ENTER DATABASE PASSWORD HERE'
+    export DB_PORT='ENTER PORT NUMBER HERE'
 
 Please remember to leave your virtenv out of version control. This otherwise defeats the purpose
 of setting virtenv variables!
@@ -99,21 +99,21 @@ of setting virtenv variables!
 
 **Initialize Database, Setup Users**
 
-Now we can initialize your database. From the repo root run::
+Now we can initialize your database. From the **tact_api** folder run::
 
-    python manage.py makemigrations --settings=tact.settings.local
+    python manage.py makemigrations --settings=config.settings.local
 
 Then run::
 
-    python manage.py migrate --settings=tact.settings.local
+    python manage.py migrate --settings=config.settings.local
 
 Create an admin user as follows::
 
-    python manage.py createsuperuser --settings=tact.settings.local
+    python manage.py createsuperuser --settings=config.settings.local
 
 Finally, you can start the local server with::
 
-    python manage.py runserver --settings=tact.settings.local
+    python manage.py runserver --settings=config.settings.local
 
 Open a web browser and nagivate to http://127.0.0.1:8000/ to interact with the API in HTML mode.
 
