@@ -15,6 +15,12 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    class Meta:
+        """
+        configuration attributes for UserViewSet class
+        """
+        ordering = ['id']
+
 
 class LineViewSet(viewsets.ModelViewSet):
     """

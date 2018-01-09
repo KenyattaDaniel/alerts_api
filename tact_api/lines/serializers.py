@@ -12,7 +12,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         """
-        list configuration attributes for UserSerializer class
+        configuration attributes for UserSerializer class
         """
         model = User
         fields = ('url', 'id', 'username', 'lines')
@@ -26,18 +26,18 @@ class LineSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         """
-        list configuration attributes for LineSerializer class
+        configuration attributes for LineSerializer class
         """
         model = Line
         fields = ('url', 'id', 'owner', 'created', 'title')
 
-    def create(self, validated_data):
+    def create_line(self, validated_data):
         """
         create and return a new 'Line' instance, given the validated data.
         """
         return Line.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
+    def update_line(self, instance, validated_data):
         """
         update and return an existing 'Line' instance, given the validated data.
         """
@@ -54,18 +54,18 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         """
-        list configuration attributes for EventSerializer class
+        configuration attributes for EventSerializer class
         """
         model = Event
-        fields = ('url', 'id', 'created', 'owner', 'title', 'desc', 'start', 'end', 'line')
+        fields = ('url', 'id', 'owner', 'line', 'created', 'title', 'desc', 'start', 'end')
 
-    def create(self, validated_data):
+    def create_event(self, validated_data):
         """
         create and return a new 'Event' instance, given the validated data.
         """
         return Event.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
+    def update_event(self, instance, validated_data):
         """
         update and return an existing 'Event' instance, given the validated data.
         """
