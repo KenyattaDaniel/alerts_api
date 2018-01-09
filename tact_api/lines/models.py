@@ -1,13 +1,13 @@
 from django.db import models
 
+from core.models import TimeStampedModel
 
-class Line(models.Model):
+class Line(TimeStampedModel):
     """
     This class represents a timeline.
     """
     owner = models.ForeignKey('auth.User', related_name='lines', on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True, default='')
-    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         """
@@ -22,7 +22,7 @@ class Line(models.Model):
         return self.title
 
 
-class Event(models.Model):
+class Event(TimeStampedModel):
     """
     This class represents an event.
     """

@@ -29,7 +29,7 @@ class LineSerializer(serializers.HyperlinkedModelSerializer):
         configuration attributes for LineSerializer class
         """
         model = Line
-        fields = ('url', 'id', 'owner', 'created', 'title')
+        fields = ('url', 'id', 'owner', 'created', 'modified', 'title')
 
     def create_line(self, validated_data):
         """
@@ -57,7 +57,7 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
         configuration attributes for EventSerializer class
         """
         model = Event
-        fields = ('url', 'id', 'owner', 'line', 'created', 'title', 'desc', 'start', 'end')
+        fields = ('url', 'id', 'owner', 'line', 'created', 'modified', 'title', 'desc', 'start', 'end')
 
     def create_event(self, validated_data):
         """
