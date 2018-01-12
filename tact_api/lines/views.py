@@ -12,6 +12,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Provides 'list' and 'detail' information of users.
     """
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -26,10 +27,14 @@ class LineViewSet(viewsets.ModelViewSet):
     """
     Provides 'list', 'create', 'retrieve', 'update' and
     'destroy' actions for lines.
+
+    Authenticated users can see all created lines.
+
+    Authenticated users can only edit their own lines.
     """
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
     queryset = Line.objects.all()
     serializer_class = LineSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -39,10 +44,15 @@ class EventViewSet(viewsets.ModelViewSet):
     """
     Provides 'list', 'create', 'retrieve', 'update' and
     'destroy' actions for events.
+
+    Authenticated users can see all created events.
+
+    Authenticated users can create events, add them to
+    owned lines and edit them.
     """
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

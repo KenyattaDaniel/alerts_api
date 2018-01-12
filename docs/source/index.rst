@@ -3,20 +3,24 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Tact API documentation!
-====================================
-
-Hello! This document helps you make full use of Tact's API!
+Tact REST API.
+===============
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :glob:
+   :titlesonly:
+   :name: mastertoc
+   
+   get_started*
+   
 
-   intro
+API REFERENCE
+==============
 
-Indices and tables
-==================
+.. toctree::
+   :glob:
+   :titlesonly:
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   api_reference/*
+
+

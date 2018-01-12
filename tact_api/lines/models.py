@@ -2,6 +2,7 @@ from django.db import models
 
 from core.models import TimeStampedModel
 
+
 class Line(TimeStampedModel):
     """
     This class represents a timeline.
