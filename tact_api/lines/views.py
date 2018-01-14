@@ -10,17 +10,16 @@ from .permissions import IsOwnerOrReadOnly
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Provides 'list' and 'detail' information of users.
+    Provides 'list' and 'detail' views of users.
+
+    Authenticated users can see list, details of all active users.
     """
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
     class Meta:
-        """
-        configuration attributes for UserViewSet class
-        """
-        ordering = ['id']
+        ordering = ('id',)
 
 
 class LineViewSet(viewsets.ModelViewSet):
@@ -28,7 +27,7 @@ class LineViewSet(viewsets.ModelViewSet):
     Provides 'list', 'create', 'retrieve', 'update' and
     'destroy' actions for lines.
 
-    Authenticated users can see all created lines.
+    Authenticated users can see list, details of all created lines.
 
     Authenticated users can only edit their own lines.
     """
@@ -45,7 +44,7 @@ class EventViewSet(viewsets.ModelViewSet):
     Provides 'list', 'create', 'retrieve', 'update' and
     'destroy' actions for events.
 
-    Authenticated users can see all created events.
+    Authenticated users can see list, details of all created events.
 
     Authenticated users can create events, add them to
     owned lines and edit them.

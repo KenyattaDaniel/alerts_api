@@ -1,0 +1,61 @@
+from django.contrib.auth.models import User
+from django.test import TestCase
+from django.utils import timezone
+
+from .models import Line, Event
+
+
+class LineTestCase(TestCase):
+    """
+    Define the test suite for the Line model.
+    """
+
+    def setUp(self):
+        """
+        Define the line test client and other test variables.
+        """
+        self.line_title = "Title goes here"
+        self.line_owner = User.objects.create(username="user", password="userpass")
+        self.line = Line(title=self.line_title, owner=self.line_owner)
+
+    def test_model_can_create_a_line(self):
+        """
+        Test if the line model can create a line object.
+        """
+        old_count = Line.objects.count()
+        self.line.save()
+        new_count = Line.objects.count()
+        self.assertNotEqual(old_count, new_count)
+
+
+class EventTestCase(TestCase):
+    """
+    Define the test suite for the Event model.
+    """
+
+    def setUp(self):
+        """
+        Define the even test client and other test variables.
+        """
+        # create and save a new line
+        self.line_title = "Title goes here"
+        self.line_owner = User.objects.create(username="user", password="userpass")
+        self.line = Line(title=self.line_title, owner=self.line_owner)
+        self.line.save()
+        # specify variables req. for creating a new event
+        self.event_title = "Title goes here"
+        self.event_owner = self.line_owner
+        self.event_desc = "Description goes here."
+        self.event_start = timezone.now()
+        self.event_end = timezone.now()
+        self.event = Event(line=self.line, title=self.event_title, desc=self.event_desc,
+                           start=self.event_start, end=self.event_end, owner=self.event_owner)
+
+    def test_model_can_create_an_event(self):
+        """
+        Test if event model can create an event object.
+        """
+        old_count = Event.objects.count()
+        self.event.save()
+        new_count = Event.objects.count()
+        self.assertNotEqual(old_count, new_count)

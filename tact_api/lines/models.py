@@ -5,44 +5,37 @@ from core.models import TimeStampedModel
 
 class Line(TimeStampedModel):
     """
-    This class represents a timeline.
+    Class representation of a timeline.
     """
     owner = models.ForeignKey('auth.User', related_name='lines', on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True, default='')
 
     class Meta:
-        """
-        orders created lines in descending order from oldest to newest.
-        """
         ordering = ('created',)
 
     def __str__(self):
         """
-        returns the titles of created lines
+        returns string representation of timeline
         """
         return self.title
 
 
 class Event(TimeStampedModel):
     """
-    This class represents an event.
+    Class representation of an event.
     """
     owner = models.ForeignKey('auth.User', related_name='events', on_delete=models.CASCADE)
     line = models.ForeignKey(Line, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True, default='')
-    created = models.DateTimeField(auto_now_add=True)
     desc = models.TextField()
     start = models.DateTimeField()
     end = models.DateTimeField()
 
     class Meta:
-        """
-        orders created lines in descending order from oldest to newest.
-        """
         ordering = ('created',)
 
     def __str__(self):
         """
-        returns the titles of created events
+        returns string representation of an event.
         """
         return self.title
