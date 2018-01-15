@@ -10,3 +10,7 @@ setup.cfg
 
 # Sphinx documentation
 docs/build/
+
+# Unit test / coverage reports
+htmlcov/
+.coverage

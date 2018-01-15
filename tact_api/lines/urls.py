@@ -5,9 +5,9 @@ from . import views
 
 # Create a router and register viewsets with it.
 router = DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'lines', views.LineViewSet)
-router.register(r'events', views.EventViewSet)
+router.register(r'users', views.UserViewSet, base_name='user')
+router.register(r'lines', views.LineViewSet, base_name='line')
+router.register(r'events', views.EventViewSet, base_name='event')
 
 # Automatically determine API URLS
 urlpatterns = [
