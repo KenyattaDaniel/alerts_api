@@ -14,9 +14,9 @@ class LineTestCase(TestCase):
         """
         Define the line test client and other test variables.
         """
+        user = User.objects.create(username="tactician")
         self.line_title = "Title goes here"
-        self.line_owner = User.objects.create(username="user", password="userpass")
-        self.line = Line(title=self.line_title, owner=self.line_owner)
+        self.line = Line(title=self.line_title, owner=user)
 
     def test_model_can_create_a_line(self):
         """
@@ -37,19 +37,20 @@ class EventTestCase(TestCase):
         """
         Define the even test client and other test variables.
         """
+        user = User.objects.create(username="tactician")
+
         # create and save a new line
         self.line_title = "Title goes here"
-        self.line_owner = User.objects.create(username="user", password="userpass")
-        self.line = Line(title=self.line_title, owner=self.line_owner)
+        self.line = Line(title=self.line_title, owner=user)
         self.line.save()
-        # specify variables req. for creating a new event
+
+        # create a new event linked to the new line
         self.event_title = "Title goes here"
-        self.event_owner = self.line_owner
         self.event_desc = "Description goes here."
         self.event_start = timezone.now()
         self.event_end = timezone.now()
         self.event = Event(line=self.line, title=self.event_title, desc=self.event_desc,
-                           start=self.event_start, end=self.event_end, owner=self.event_owner)
+                           start=self.event_start, end=self.event_end, owner=user)
 
     def test_model_can_create_an_event(self):
         """
