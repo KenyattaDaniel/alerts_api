@@ -25,7 +25,7 @@ class Event(TimeStampedModel):
     Class representation of an event.
     """
     owner = models.ForeignKey('auth.User', related_name='events', on_delete=models.CASCADE)
-    line = models.ForeignKey(Line, on_delete=models.CASCADE)
+    line = models.ForeignKey(Line, related_name='events', on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True, default='')
     desc = models.TextField()
     start = models.DateTimeField()

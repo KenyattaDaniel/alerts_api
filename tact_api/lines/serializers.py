@@ -8,11 +8,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     """
     Convert User model instance into native Python datatypes to be rendered as JSON.
     """
-    lines = serializers.HyperlinkedRelatedField(many=True, view_name='line-detail', read_only=True)
-
     class Meta:
         model = User
-        fields = ('url', 'id', 'username', 'lines')
+        fields = ('url', 'id', 'username', 'lines', 'events')
 
 
 class LineSerializer(serializers.HyperlinkedModelSerializer):
@@ -20,10 +18,11 @@ class LineSerializer(serializers.HyperlinkedModelSerializer):
     Convert Line model instance into native Python datatypes to be rendered as JSON.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
+    events = serializers.HyperlinkedRelatedField(many=True, view_name='event-detail', read_only=True)
 
     class Meta:
         model = Line
-        fields = ('url', 'id', 'owner', 'created', 'modified', 'title')
+        fields = ('url', 'id', 'owner', 'created', 'modified', 'title', 'events')
 
     def create_line(self, validated_data):
         """
@@ -40,7 +39,7 @@ class LineSerializer(serializers.HyperlinkedModelSerializer):
         return instance
 
 
-class EventSerializer(serializers.HyperlinkedModelSerializer):
+class EventSerializer(serializers.ModelSerializer):
     """
     Convert Event model instance into native Python datatypes to be rendered as JSON.
     """
@@ -48,8 +47,8 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Event
-        fields = ('url', 'id', 'owner', 'line', 'created', 'modified', 'title', 'desc', 'start',
-                  'end')
+        fields = ('url', 'id', 'owner', 'created', 'modified', 'title', 'desc', 'start',
+                  'end', 'line')
 
     def get_fields(self, *args, **kwargs):
         """
