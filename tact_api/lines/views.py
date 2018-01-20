@@ -18,9 +18,6 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    class Meta:
-        ordering = ('id',)
-
 
 class LineViewSet(viewsets.ModelViewSet):
     """
