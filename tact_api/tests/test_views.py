@@ -71,7 +71,7 @@ class LineViewTestCase(TestCase):
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
 
 
-class AnnouncemenrViewTestCase(TestCase):
+class AnnouncementViewTestCase(TestCase):
     """
     Test suite for Announcement API views
     """

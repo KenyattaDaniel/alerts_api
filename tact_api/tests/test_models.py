@@ -129,7 +129,7 @@ class TaskTestCase(TestCase):
         self.task_desc = "Description goes here."
         self.task_due = timezone.now()
         self.task = Task(line=self.line, title=self.task_title, desc=self.task_desc,
-                         start=self.task_due, owner=self.user)
+                         due=self.task_due, owner=self.user)
 
     def tearDown(self):
         """

@@ -7,7 +7,9 @@ from . import views
 router = DefaultRouter()
 router.register(r'users', views.UserViewSet, base_name='user')
 router.register(r'lines', views.LineViewSet, base_name='line')
+router.register(r'announcements', views.AnnouncementViewSet, base_name='announcement')
 router.register(r'events', views.EventViewSet, base_name='event')
+router.register(r'tasks', views.TaskViewSet, base_name='task')
 
 # Automatically determine API URLS
 urlpatterns = [
