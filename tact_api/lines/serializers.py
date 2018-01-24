@@ -6,19 +6,19 @@ from .models import Line, Announcement, Event, Task
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     """
-    Convert User model instance into native Python datatypes to be rendered as JSON.
+    Convert User model instances' native Python datatypes into and from JSON.
     """
     class Meta:
         model = User
-        fields = ('url', 'id', 'username', 'lines', 'events')
+        fields = ('url', 'id', 'username', 'lines')
 
 
 class LineSerializer(serializers.HyperlinkedModelSerializer):
     """
-    Convert Line model instance into native Python datatypes to be rendered as JSON.
+    Convert Line model instances' native Python datatypes into and from JSON.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
-    announcements = serializers.HyperlinkedRelatedField(many=True, view_name='annoucement-detail',
+    announcements = serializers.HyperlinkedRelatedField(many=True, view_name='announcement-detail',
                                                         read_only=True)
     events = serializers.HyperlinkedRelatedField(many=True, view_name='event-detail',
                                                  read_only=True)
@@ -47,7 +47,7 @@ class LineSerializer(serializers.HyperlinkedModelSerializer):
 
 class AnnouncementSerializer(serializers.ModelSerializer):
     """
-    Convert Announcement model instance into native Python datatypes to be rendered as JSON.
+    Convert Announcement model instances' native Python datatypes into and from JSON.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
 
@@ -70,7 +70,7 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     """
-    Convert Event model instance into native Python datatypes to be rendered as JSON.
+    Convert Event model instances' native Python datatypes into and from JSON.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
 
@@ -94,7 +94,7 @@ class EventSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
     """
-    Convert Task model instance into native Python datatypes to be rendered as JSON.
+    Convert Task model instances' native Python datatypes into and from JSON.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
 
