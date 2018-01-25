@@ -39,7 +39,7 @@ class LineViewTestCase(TestCase):
         line = Line.objects.get()
         new_client = APIClient()
         response = new_client.get('/lines/', kwargs={'pk': line.id}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_api_can_get_a_line(self):
         """
@@ -108,7 +108,7 @@ class AnnouncementViewTestCase(TestCase):
         announ = Announcement.objects.get()
         new_client = APIClient()
         response = new_client.get('/announcements/', kwargs={'pk': announ.id}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_api_can_get_a_announcement(self):
         """
@@ -180,7 +180,7 @@ class EventViewTestCase(TestCase):
         event = Event.objects.get()
         new_client = APIClient()
         response = new_client.get('/events/', kwargs={'pk': event.id}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_api_can_get_a_event(self):
         """
@@ -253,7 +253,7 @@ class TaskViewTestCase(TestCase):
         task = Task.objects.get()
         new_client = APIClient()
         response = new_client.get('/tasks/', kwargs={'pk': task.id}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_api_can_get_a_task(self):
         """
