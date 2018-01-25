@@ -16,16 +16,22 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from rest_framework.schemas import get_schema_view
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 # Autogenerate schema view
 schema_view = get_schema_view(title='Pastebin API')
 
+# Specify URLS for apps (e.g. lines), Django Admin, Schema
 urlpatterns = [
     url(r'^', include('lines.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^schema/$', schema_view),
 ]
 
+# Specify URLS for JSON Web Token authorization views
 urlpatterns += [
-    url(r'^api-auth/', include('rest_framework.urls')),
+    url(r'^api/', include('rest_framework.urls')),
+    url(r'^jwt-auth/', obtain_jwt_token),
+    url(r'^jwt-auth-refresh/', refresh_jwt_token),
+    url(r'^jwt-auth-verify/', verify_jwt_token),
 ]
