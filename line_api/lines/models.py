@@ -39,23 +39,23 @@ class Announcement(TimeStampedModel):
         return self.title
 
 
-class Event(TimeStampedModel):
+class Meeting(TimeStampedModel):
     """
-    Class representation of an event.
+    Class representation of an meeting.
     """
-    owner = models.ForeignKey('auth.User', related_name='events', on_delete=models.CASCADE)
-    line = models.ForeignKey(Line, related_name='events', on_delete=models.CASCADE)
+    owner = models.ForeignKey('auth.User', related_name='meetings', on_delete=models.CASCADE)
+    line = models.ForeignKey(Line, related_name='meetings', on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True, default='')
     desc = models.TextField()
     start = models.DateTimeField()
     end = models.DateTimeField()
 
     class Meta:
-        ordering = ('created',)
+        ordering = ('end',)
 
     def __str__(self):
         """
-        returns string representation of an event.
+        returns string representation of an meeting.
         """
         return self.title
 
@@ -71,7 +71,7 @@ class Task(TimeStampedModel):
     due = models.DateTimeField()
 
     class Meta:
-        ordering = ('created',)
+        ordering = ('due',)
 
     def __str__(self):
         """

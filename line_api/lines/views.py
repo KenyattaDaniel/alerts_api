@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 from rest_framework import permissions
 from rest_framework import viewsets
 
-from .models import Line, Announcement, Event, Task
+from .models import Line, Announcement, Meeting, Task
 from .serializers import LineSerializer, UserSerializer
-from .serializers import AnnouncementSerializer, EventSerializer, TaskSerializer
+from .serializers import AnnouncementSerializer, MeetingSerializer, TaskSerializer
 from .permissions import IsOwnerOrReadOnly
 
 
@@ -55,19 +55,19 @@ class AnnouncementViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
 
-class EventViewSet(viewsets.ModelViewSet):
+class MeetingViewSet(viewsets.ModelViewSet):
     """
     Provides 'list', 'create', 'retrieve', 'update' and
-    'destroy' actions for events.
+    'destroy' actions for meetings.
 
-    Authenticated users can see list, details of all created events.
+    Authenticated users can see list, details of all created meetings.
 
-    Authenticated users can create events, add them to
+    Authenticated users can create meetings, add them to
     owned lines and edit them.
     """
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
+    queryset = Meeting.objects.all()
+    serializer_class = MeetingSerializer
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

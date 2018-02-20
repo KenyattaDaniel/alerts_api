@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from .models import Line, Announcement, Event, Task
+from .models import Line, Announcement, Meeting, Task
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -20,14 +20,14 @@ class LineSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     announcements = serializers.HyperlinkedRelatedField(many=True, view_name='announcement-detail',
                                                         read_only=True)
-    events = serializers.HyperlinkedRelatedField(many=True, view_name='event-detail',
+    meetings = serializers.HyperlinkedRelatedField(many=True, view_name='meeting-detail',
                                                  read_only=True)
     tasks = serializers.HyperlinkedRelatedField(many=True, view_name='task-detail',
                                                 read_only=True)
 
     class Meta:
         model = Line
-        fields = ('url', 'id', 'owner', 'created', 'modified', 'title', 'announcements', 'events',
+        fields = ('url', 'id', 'owner', 'created', 'modified', 'title', 'announcements', 'meetings',
                   'tasks')
 
     def create_line(self, validated_data):
@@ -68,24 +68,24 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         return fields
 
 
-class EventSerializer(serializers.ModelSerializer):
+class MeetingSerializer(serializers.ModelSerializer):
     """
-    Convert Event model instances' native Python datatypes into and from JSON.
+    Convert Meeting model instances' native Python datatypes into and from JSON.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
-        model = Event
+        model = Meeting
         fields = ('url', 'id', 'owner', 'created', 'modified', 'title', 'desc', 'start',
                   'end', 'line')
 
     def get_fields(self, *args, **kwargs):
         """
-        create and return a new Event object (linked to a user owned Line) with validated data.
+        create and return a new Meeting object (linked to a user owned Line) with validated data.
 
-        update and return an existing Event object with validated data.
+        update and return an existing Meeting object with validated data.
         """
-        fields = super(EventSerializer, self).get_fields(*args, **kwargs)
+        fields = super(MeetingSerializer, self).get_fields(*args, **kwargs)
         view = self.context['view']
         owner = view.request.user
         fields['line'].queryset = fields['line'].queryset.filter(owner=owner)

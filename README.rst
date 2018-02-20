@@ -3,7 +3,7 @@
 TacT JSON API
 =============
 
-.. image:: tact_api/logo.png
+.. image:: line_api/logo.png
 An API platform enabling professionals living in small developing countries to easily 
 share and receive useful analysis, data and information.
 **Tact API is currently under development**. Once completed, it will enable users to*;
