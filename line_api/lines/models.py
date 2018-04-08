@@ -3,29 +3,11 @@ from django.db import models
 from core.models import TimeStampedModel
 
 
-class Line(TimeStampedModel):
-    """
-    Class representation of a timeline.
-    """
-    owner = models.ForeignKey('auth.User', related_name='lines', on_delete=models.CASCADE)
-    title = models.CharField(max_length=200, blank=True, default='')
-
-    class Meta:
-        ordering = ('created',)
-
-    def __str__(self):
-        """
-        returns string representation of timeline
-        """
-        return self.title
-
-
 class Announcement(TimeStampedModel):
     """
     Class representation of an announcement.
     """
     owner = models.ForeignKey('auth.User', related_name='announcements', on_delete=models.CASCADE)
-    line = models.ForeignKey(Line, related_name='announcements', on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True, default='')
     desc = models.TextField()
 
@@ -39,12 +21,11 @@ class Announcement(TimeStampedModel):
         return self.title
 
 
-class Meeting(TimeStampedModel):
+class Event(TimeStampedModel):
     """
-    Class representation of an meeting.
+    Class representation of an event.
     """
-    owner = models.ForeignKey('auth.User', related_name='meetings', on_delete=models.CASCADE)
-    line = models.ForeignKey(Line, related_name='meetings', on_delete=models.CASCADE)
+    owner = models.ForeignKey('auth.User', related_name='events', on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True, default='')
     desc = models.TextField()
     start = models.DateTimeField()
@@ -55,7 +36,7 @@ class Meeting(TimeStampedModel):
 
     def __str__(self):
         """
-        returns string representation of an meeting.
+        returns string representation of an event.
         """
         return self.title
 
@@ -65,7 +46,6 @@ class Task(TimeStampedModel):
     Class representation of a task.
     """
     owner = models.ForeignKey('auth.User', related_name='tasks', on_delete=models.CASCADE)
-    line = models.ForeignKey(Line, related_name='tasks', on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True, default='')
     desc = models.TextField()
     due = models.DateTimeField()

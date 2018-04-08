@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from .models import Line, Announcement, Meeting, Task
+from .models import Announcement, Event, Task
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -10,39 +10,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     """
     class Meta:
         model = User
-        fields = ('url', 'id', 'username', 'lines')
-
-
-class LineSerializer(serializers.HyperlinkedModelSerializer):
-    """
-    Convert Line model instances' native Python datatypes into and from JSON.
-    """
-    owner = serializers.ReadOnlyField(source='owner.username')
-    announcements = serializers.HyperlinkedRelatedField(many=True, view_name='announcement-detail',
-                                                        read_only=True)
-    meetings = serializers.HyperlinkedRelatedField(many=True, view_name='meeting-detail',
-                                                 read_only=True)
-    tasks = serializers.HyperlinkedRelatedField(many=True, view_name='task-detail',
-                                                read_only=True)
-
-    class Meta:
-        model = Line
-        fields = ('url', 'id', 'owner', 'created', 'modified', 'title', 'announcements', 'meetings',
-                  'tasks')
-
-    def create_line(self, validated_data):
-        """
-        create and return a new Line object with validated data.
-        """
-        return Line.objects.create(**validated_data)
-
-    def update_line(self, instance, validated_data):
-        """
-        update and return an existing line object with validated.
-        """
-        instance.title = validated_data.get('title', instance.title)
-        instance.save()
-        return instance
+        fields = ('url', 'id', 'username', 'announcements', 'events', 'tasks')
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):
@@ -53,43 +21,51 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Announcement
-        fields = ('url', 'id', 'owner', 'created', 'modified', 'title', 'desc', 'line')
+        fields = ('url', 'id', 'owner', 'created', 'modified', 'title', 'desc')
 
-    def get_fields(self, *args, **kwargs):
+    def create_announcement(self, validated_data):
         """
-        create and return a new Announcement object (linked to a user Line) with validated data.
-
-        update and return an existing Announcement object with validated data.
+        create and return a new announcement object with validated data.
         """
-        fields = super(AnnouncementSerializer, self).get_fields(*args, **kwargs)
-        view = self.context['view']
-        owner = view.request.user
-        fields['line'].queryset = fields['line'].queryset.filter(owner=owner)
-        return fields
+        return Announcement.objects.create(**validated_data)
+
+    def update_announcement(self, instance, validated_data):
+        """
+        update and return an existing announcement object with validated.
+        """
+        instance.title = validated_data.get('title', instance.title)
+        instance.desc = validated_data.get('desc', instance.desc)
+        instance.save()
+        return instance
 
 
-class MeetingSerializer(serializers.ModelSerializer):
+class EventSerializer(serializers.ModelSerializer):
     """
-    Convert Meeting model instances' native Python datatypes into and from JSON.
+    Convert Event model instances' native Python datatypes into and from JSON.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
-        model = Meeting
+        model = Event
         fields = ('url', 'id', 'owner', 'created', 'modified', 'title', 'desc', 'start',
-                  'end', 'line')
+                  'end')
 
-    def get_fields(self, *args, **kwargs):
+    def create_event(self, validated_data):
         """
-        create and return a new Meeting object (linked to a user owned Line) with validated data.
+        create and return a new event object with validated data.
+        """
+        return Event.objects.create(**validated_data)
 
-        update and return an existing Meeting object with validated data.
+    def update_event(self, instance, validated_data):
         """
-        fields = super(MeetingSerializer, self).get_fields(*args, **kwargs)
-        view = self.context['view']
-        owner = view.request.user
-        fields['line'].queryset = fields['line'].queryset.filter(owner=owner)
-        return fields
+        update and return an existing event object with validated.
+        """
+        instance.title = validated_data.get('title', instance.title)
+        instance.desc = validated_data.get('desc', instance.desc)
+        instance.start = validated_data.get('start', instance.start)
+        instance.end = validated_data.get('end', instance.end)
+        instance.save()
+        return instance
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -100,16 +76,22 @@ class TaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ('url', 'id', 'owner', 'created', 'modified', 'title', 'desc', 'due', 'line')
+        fields = ('url', 'id', 'owner', 'created', 'modified', 'title', 'desc', 'due')
 
-    def get_fields(self, *args, **kwargs):
+    def create_task(self, validated_data):
         """
-        create and return a new Task object (linked to a user owned Line) with validated data.
+        create and return a new task object with validated data.
+        """
+        return Task.objects.create(**validated_data)
 
-        update and return an existing Task object with validated data.
+    def update_task(self, instance, validated_data):
         """
-        fields = super(TaskSerializer, self).get_fields(*args, **kwargs)
-        view = self.context['view']
-        owner = view.request.user
-        fields['line'].queryset = fields['line'].queryset.filter(owner=owner)
-        return fields
+        update and return an existing task object with validated.
+        """
+        instance.title = validated_data.get('title', instance.title)
+        instance.desc = validated_data.get('desc', instance.desc)
+        instance.due = validated_data.get('due', instance.due)
+        instance.save()
+        return instance
+
+

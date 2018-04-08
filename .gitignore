@@ -3,7 +3,7 @@ __pycache__/
 *.pyc
 
 # Virtual Env
-tact_env/
+tact_api_env/
 
 # Flake8 config
 setup.cfg
@@ -14,3 +14,6 @@ docs/build/
 # Unit test / coverage reports
 htmlcov/
 .coverage
+
+# Code snippets for later
+snippets.py

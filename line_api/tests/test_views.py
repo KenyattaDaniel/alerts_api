@@ -5,70 +5,7 @@ from django.utils import timezone
 from rest_framework.test import APIClient
 from rest_framework import status
 
-from lines.models import Line, Announcement, Event, Task
-
-
-class LineViewTestCase(TestCase):
-    """
-    Test suite for the Line API views
-    """
-    def setUp(self):
-        """
-        Define the line test client and other test variables.
-        """
-        user = User.objects.create(username="tactician")
-
-        # initialize client and force authentication
-        self.client = APIClient()
-        self.client.force_authenticate(user=user)
-
-        # create and post a new line using authorized user
-        self.line_data = {'title': 'Title goes here'}
-        self.response = self.client.post(reverse('line-list'), self.line_data, format='json')
-
-    def test_api_can_create_a_line(self):
-        """
-        Test the api has line creation capability.
-        """
-        self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
-
-    def test_authorization_is_enforced(self):
-        """
-        Test that the api has user authorization.
-        """
-        line = Line.objects.get()
-        new_client = APIClient()
-        response = new_client.get('/lines/', kwargs={'pk': line.id}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
-    def test_api_can_get_a_line(self):
-        """
-        Test the api can get a given line.
-        """
-        line = Line.objects.get()
-        response = self.client.get('/lines/', kwargs={'pk': line.id}, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertContains(response, line)
-
-    def test_api_can_update_line(self):
-        """
-        Test the api can update a given line.
-        """
-        line = Line.objects.get()
-        update_line = {'title': 'New title goes here'}
-        response = self.client.put(
-            reverse('line-detail', kwargs={'pk': line.id}), update_line, format='json')
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_api_can_delete_line(self):
-        """
-        Test the api can delete a line.
-        """
-        line = Line.objects.get()
-        response = self.client.delete(reverse('line-detail', kwargs={'pk': line.id}),
-                                      format='json', follow=True)
-        self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
+from lines.models import Announcement, Event, Task
 
 
 class AnnouncementViewTestCase(TestCase):
@@ -85,13 +22,8 @@ class AnnouncementViewTestCase(TestCase):
         self.client = APIClient()
         self.client.force_authenticate(user=user)
 
-        # create and post a new line using authorized user
-        self.line_data = {'title': 'Title goes here'}
-        self.res = self.client.post(reverse('line-list'), self.line_data, format='json')
-
-        # create and post a new event, linked to line created above
-        line = Line.objects.get()
-        self.announ_data = {'line': line.id, 'title': 'Title goes here', 'desc': 'Desc. here'}
+        # create and post a new announcement, linked to line created above
+        self.announ_data = {'title': 'Title goes here', 'desc': 'Desc. here'}
         self.response = self.client.post(reverse('announcement-list'),
                                          self.announ_data, format='json')
 
@@ -103,12 +35,12 @@ class AnnouncementViewTestCase(TestCase):
 
     def test_authorization_is_enforced(self):
         """
-        Test that the api has user authorization.
+        Test that the api has unauthroized user access.
         """
         announ = Announcement.objects.get()
         new_client = APIClient()
         response = new_client.get('/announcements/', kwargs={'pk': announ.id}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_api_can_get_a_announcement(self):
         """
@@ -123,12 +55,11 @@ class AnnouncementViewTestCase(TestCase):
         """
         Test the api can update a given announcement.
         """
-        # get the created line, announcement
-        line = Line.objects.get()
+        # get the created announcement
         announ = Announcement.objects.get()
 
         # perform put request to update event
-        update_announ = {'line': line.id, 'title': 'Title goes here', 'desc': 'Desc. here'}
+        update_announ = {'title': 'Title goes here', 'desc': 'Desc. here'}
         response = self.client.put(
             reverse('announcement-detail', kwargs={'pk': announ.id}), update_announ, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -157,13 +88,8 @@ class EventViewTestCase(TestCase):
         self.client = APIClient()
         self.client.force_authenticate(user=user)
 
-        # create and post a new line using authorized user
-        self.line_data = {'title': 'Title goes here'}
-        self.res = self.client.post(reverse('line-list'), self.line_data, format='json')
-
         # create and post a new event, linked to line created above
-        line = Line.objects.get()
-        self.event_data = {'line': line.id, 'title': 'Title goes here',
+        self.event_data = {'title': 'Title goes here',
                            'desc': 'Desc. here', 'start': timezone.now(), 'end': timezone.now()}
         self.response = self.client.post(reverse('event-list'), self.event_data, format='json')
 
@@ -175,12 +101,12 @@ class EventViewTestCase(TestCase):
 
     def test_authorization_is_enforced(self):
         """
-        Test that the api has user authorization.
+        Test that the api has unauthorized user access.
         """
         event = Event.objects.get()
         new_client = APIClient()
         response = new_client.get('/events/', kwargs={'pk': event.id}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_api_can_get_a_event(self):
         """
@@ -195,12 +121,11 @@ class EventViewTestCase(TestCase):
         """
         Test the api can update a given event.
         """
-        # get the created line, event
-        line = Line.objects.get()
+        # get the created event
         event = Event.objects.get()
 
         # perform put request to update event
-        update_event = {'line': line.id, 'title': 'Title goes here', 'desc': 'Desc. here',
+        update_event = {'title': 'Title goes here', 'desc': 'Desc. here',
                         'start': timezone.now(), 'end': timezone.now()}
         response = self.client.put(
             reverse('event-detail', kwargs={'pk': event.id}), update_event, format='json')
@@ -230,13 +155,8 @@ class TaskViewTestCase(TestCase):
         self.client = APIClient()
         self.client.force_authenticate(user=user)
 
-        # create and post a new line using authorized user
-        self.line_data = {'title': 'Title goes here'}
-        self.res = self.client.post(reverse('line-list'), self.line_data, format='json')
-
         # create and post a new event, linked to line created above
-        line = Line.objects.get()
-        self.task_data = {'line': line.id, 'title': 'Title goes here', 'desc': 'Desc. here',
+        self.task_data = {'title': 'Title goes here', 'desc': 'Desc. here',
                           'due': timezone.now()}
         self.response = self.client.post(reverse('task-list'), self.task_data, format='json')
 
@@ -248,12 +168,12 @@ class TaskViewTestCase(TestCase):
 
     def test_authorization_is_enforced(self):
         """
-        Test that the api has user authorization.
+        Test that the api has unauthorized user access.
         """
         task = Task.objects.get()
         new_client = APIClient()
         response = new_client.get('/tasks/', kwargs={'pk': task.id}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_api_can_get_a_task(self):
         """
@@ -268,12 +188,11 @@ class TaskViewTestCase(TestCase):
         """
         Test the api can update a given task.
         """
-        # get the created line, task
-        line = Line.objects.get()
+        # get the created task
         task = Task.objects.get()
 
         # perform put request to update event
-        update_task = {'line': line.id, 'title': 'Title goes here', 'desc': 'Desc. here',
+        update_task = {'title': 'Title goes here', 'desc': 'Desc. here',
                        'due': timezone.now()}
         response = self.client.put(
             reverse('task-detail', kwargs={'pk': task.id}), update_task, format='json')

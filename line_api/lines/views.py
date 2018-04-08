@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 from rest_framework import permissions
 from rest_framework import viewsets
 
-from .models import Line, Announcement, Meeting, Task
-from .serializers import LineSerializer, UserSerializer
-from .serializers import AnnouncementSerializer, MeetingSerializer, TaskSerializer
+from .models import Announcement, Event, Task
+from .serializers import UserSerializer
+from .serializers import AnnouncementSerializer, EventSerializer, TaskSerializer
 from .permissions import IsOwnerOrReadOnly
 
 
@@ -15,26 +15,9 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
     Authenticated users can see list, details of all active users.
     """
-    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-
-class LineViewSet(viewsets.ModelViewSet):
-    """
-    Provides 'list', 'create', 'retrieve', 'update' and
-    'destroy' actions for lines.
-
-    Authenticated users can see list, details of all created lines.
-
-    Authenticated users can only edit their own lines.
-    """
-    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
-    queryset = Line.objects.all()
-    serializer_class = LineSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
 
 
 class AnnouncementViewSet(viewsets.ModelViewSet):
@@ -47,7 +30,7 @@ class AnnouncementViewSet(viewsets.ModelViewSet):
     Authenticated users can create announcements, add them to
     owned lines and edit them.
     """
-    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
 
@@ -55,19 +38,19 @@ class AnnouncementViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
 
-class MeetingViewSet(viewsets.ModelViewSet):
+class EventViewSet(viewsets.ModelViewSet):
     """
     Provides 'list', 'create', 'retrieve', 'update' and
-    'destroy' actions for meetings.
+    'destroy' actions for events.
 
-    Authenticated users can see list, details of all created meetings.
+    Authenticated users can see list, details of all created events.
 
-    Authenticated users can create meetings, add them to
+    Authenticated users can create events, add them to
     owned lines and edit them.
     """
-    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
-    queryset = Meeting.objects.all()
-    serializer_class = MeetingSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -83,7 +66,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     Authenticated users can create tasks, add them to
     owned lines and edit them.
     """
-    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
