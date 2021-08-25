@@ -1,29 +1,5 @@
 # README
 
-TacT JSON API
-=============
-
-.. image:: line_api/logo.png
-An API platform enabling professionals living in small developing countries to easily 
-share and receive useful analysis, data and information.
-**Tact API is currently under development**. Once completed, it will enable users to*;
-
-* create and publish a timeline. 
-* add events, tasks and news alerts to timelines
-* subscribe to publicly available timelines
-* provide feedback on timeline events, tasks & alerts
-
-In the future Tact's API will power a mobile and web application. 
-
-==========
-Motivation
-==========
-
-I recently spent 7 years working on my home island of Sint Eustatius. As a young professional,
-I saw first hand the challenges faced by local entrepreneurs, SME's and public organizations in 
-accessing information and services needed to effectively run and growth their organizations. 
-My experience inspired me to develop Tact; " the Bloomberg for island professionals!"  
-
 ==========
 Code Style
 ==========
